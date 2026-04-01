@@ -19,20 +19,24 @@ public class EmployeePayrollService {
             Connection connection =
                     DriverManager.getConnection(jdbcURL, username, password);
 
+            connection.setAutoCommit(false);
+
             String query =
                     "insert into employee_payroll (name, salary, gender, start) values (?, ?, ?, ?)";
 
             PreparedStatement preparedStatement =
                     connection.prepareStatement(query);
 
-            preparedStatement.setString(1, "Terisa");
-            preparedStatement.setDouble(2, 600000);
-            preparedStatement.setString(3, "F");
-            preparedStatement.setString(4, "2024-02-01");
+            preparedStatement.setString(1, "Alex");
+            preparedStatement.setDouble(2, 700000);
+            preparedStatement.setString(3, "M");
+            preparedStatement.setString(4, "2024-03-01");
 
-            int rows = preparedStatement.executeUpdate();
+            preparedStatement.executeUpdate();
 
-            System.out.println("Employee Added: " + rows);
+            connection.commit();
+
+            System.out.println("Transaction Successful");
 
         } catch (Exception e) {
             e.printStackTrace();
