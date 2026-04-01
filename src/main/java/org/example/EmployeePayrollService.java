@@ -2,8 +2,7 @@ package org.example;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.PreparedStatement;
 
 public class EmployeePayrollService {
 
@@ -20,32 +19,21 @@ public class EmployeePayrollService {
             Connection connection =
                     DriverManager.getConnection(jdbcURL, username, password);
 
-            Statement statement = connection.createStatement();
-
             String query =
-                    "select gender, sum(salary), avg(salary), min(salary), max(salary), count(*) from employee_payroll group by gender";
+                    "insert into employee_payroll (name, salary, gender) values (?, ?, ?)";
 
-            ResultSet resultSet = statement.executeQuery(query);
+            PreparedStatement preparedStatement =
+                    connection.prepareStatement(query);
 
-            while(resultSet.next()) {
+            preparedStatement.setString(1, "John");
+            preparedStatement.setDouble(2, 500000);
+            preparedStatement.setString(3, "M");
 
-                String gender = resultSet.getString(1);
-                double sum = resultSet.getDouble(2);
-                double avg = resultSet.getDouble(3);
-                double min = resultSet.getDouble(4);
-                double max = resultSet.getDouble(5);
-                int count = resultSet.getInt(6);
+            int rows = preparedStatement.executeUpdate();
 
-                System.out.println(
-                        gender + " | SUM=" + sum +
-                                " | AVG=" + avg +
-                                " | MIN=" + min +
-                                " | MAX=" + max +
-                                " | COUNT=" + count
-                );
-            }
+            System.out.println("Employee Added: " + rows);
 
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
