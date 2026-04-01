@@ -25,14 +25,14 @@ public class EmployeePayrollService {
             PreparedStatement preparedStatement =
                     connection.prepareStatement(query);
 
-            preparedStatement.setString(1, "Mark");
-            preparedStatement.setDouble(2, 450000);
-            preparedStatement.setString(3, "M");
-            preparedStatement.setString(4, "2024-01-10");
+            preparedStatement.setString(1, "Terisa");
+            preparedStatement.setDouble(2, 600000);
+            preparedStatement.setString(3, "F");
+            preparedStatement.setString(4, "2024-02-01");
 
             int rows = preparedStatement.executeUpdate();
 
-            System.out.println("Employee Inserted: " + rows);
+            System.out.println("Employee Added: " + rows);
 
         } catch (Exception e) {
             e.printStackTrace();
