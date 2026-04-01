@@ -20,18 +20,17 @@ public class EmployeePayrollService {
                     DriverManager.getConnection(jdbcURL, username, password);
 
             String query =
-                    "insert into employee_payroll (name, salary, gender) values (?, ?, ?)";
+                    "update employee_payroll set salary = ? where name = ?";
 
             PreparedStatement preparedStatement =
                     connection.prepareStatement(query);
 
-            preparedStatement.setString(1, "John");
-            preparedStatement.setDouble(2, 500000);
-            preparedStatement.setString(3, "M");
+            preparedStatement.setDouble(1, 3000000);
+            preparedStatement.setString(2, "Terisa");
 
             int rows = preparedStatement.executeUpdate();
 
-            System.out.println("Employee Added: " + rows);
+            System.out.println("Rows Updated: " + rows);
 
         } catch (Exception e) {
             e.printStackTrace();
