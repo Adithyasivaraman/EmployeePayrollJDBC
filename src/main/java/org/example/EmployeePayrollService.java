@@ -3,7 +3,6 @@ package org.example;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 
 public class EmployeePayrollService {
 
@@ -21,24 +20,19 @@ public class EmployeePayrollService {
                     DriverManager.getConnection(jdbcURL, username, password);
 
             String query =
-                    "select * from employee_payroll where start between ? and ?";
+                    "insert into employee_payroll (name, salary, gender, start) values (?, ?, ?, ?)";
 
             PreparedStatement preparedStatement =
                     connection.prepareStatement(query);
 
-            preparedStatement.setString(1, "2018-01-01");
-            preparedStatement.setString(2, "2020-12-31");
+            preparedStatement.setString(1, "Mark");
+            preparedStatement.setDouble(2, 450000);
+            preparedStatement.setString(3, "M");
+            preparedStatement.setString(4, "2024-01-10");
 
-            ResultSet resultSet = preparedStatement.executeQuery();
+            int rows = preparedStatement.executeUpdate();
 
-            while(resultSet.next()) {
-
-                int id = resultSet.getInt("id");
-                String name = resultSet.getString("name");
-                double salary = resultSet.getDouble("salary");
-
-                System.out.println(id + " " + name + " " + salary);
-            }
+            System.out.println("Employee Inserted: " + rows);
 
         } catch (Exception e) {
             e.printStackTrace();
